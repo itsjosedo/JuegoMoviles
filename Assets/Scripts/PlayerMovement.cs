@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed = 6f;          // velocidad m�xima del jugador
     public bool useSmoothing = false;
     public float smoothTime = 0.08f;
+    private float minX, maxX, minZ, maxZ;
+    public float padding = 0.5f;
 
     private Rigidbody rb;
     private Vector2 touchStartPos;
@@ -25,6 +27,17 @@ public class PlayerMovement : MonoBehaviour
         rb.useGravity = false;
 
         controls = new PlayerInputAction();
+
+        Camera cam = Camera.main;
+        float distance = Mathf.Abs(transform.position.y - cam.transform.position.y);
+
+        Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, distance));
+        Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, distance));
+
+        minX = bottomLeft.x;
+        maxX = topRight.x;
+        minZ = bottomLeft.z;
+        maxZ = topRight.z;
     }
 
     void OnEnable()
@@ -82,5 +95,11 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = targetVel;
         }
+
+        //Limitar los bordes dentro de la Camara
+        Vector3 pos = rb.position;
+        pos.x = Mathf.Clamp(pos.x, minX + padding, maxX - padding);
+        pos.z = Mathf.Clamp(pos.z, minZ + padding, maxZ - padding);
+        rb.position = pos;
     }
 }

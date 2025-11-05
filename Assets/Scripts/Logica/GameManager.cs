@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -11,24 +12,32 @@ public class GameManager : MonoBehaviour
 
     public Text scoreText;
     public Text livesText;
+    public GameObject gameOverPanel;
+    private bool isGameOver = false;
 
     void Awake()
     {
-        // Configurar Singleton
+        
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // persiste entre escenas
+            
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
     void Start()
     {
         UpdateUI();
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+            
     }
 
     
@@ -65,7 +74,22 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
+        if (isGameOver) return;
+        isGameOver = true;
+
         Debug.Log("Game Over!");
+
         
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+        Time.timeScale = 0f;
+
+    }
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Game");
     }
 }

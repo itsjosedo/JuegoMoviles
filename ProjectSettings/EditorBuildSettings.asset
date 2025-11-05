@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Recursos Game/Scenes/Game.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Recursos Game/Scenes/EscogerNave.unity
+    guid: e055de788a8fe3d4182eef00f12882af
+  - enabled: 1
+    path: Assets/Recursos Game/Scenes/Menu.unity
+    guid: 99c27154fac03ee45b94433758c5bea3
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 2c431d4481613fc4b9f343919b5e7ca1, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: a83df47632032574790fd47ef756b6ac, type: 2}

@@ -19,7 +19,9 @@ public class GetScore : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Impacto player detectado");
-            if (GameManager.Instance != null) GameManager.Instance.LoseLife();
+            var player = GetComponentInParent<PlayerController>();
+            if (player != null)
+                player.TomarDaño(1);
         }
     }
 

@@ -5,21 +5,20 @@ using UnityEngine.InputSystem;
 public class PlayerMovementMobile : MonoBehaviour
 {
     [Header("Joystick Settings")]
-    public float joystickRadius = 150f;  // en p�xeles
-    public float deadZone = 10f;         // p�xeles m�nimos para moverse
-    public float maxSpeed = 6f;          // velocidad m�xima del jugador
+    public float joystickRadius = 150f;
+    public float deadZone = 10f;
+    public float maxSpeed = 6f;
     public bool useSmoothing = false;
     public float smoothTime = 0.08f;
-
-    [Header("Camera Bounds")]
     public float padding = 0.5f;
 
     private Rigidbody rb;
+    private PlayerInputAction controls;
     private Vector2 touchStartPos;
     private bool isTouching = false;
-    private Vector3 velocitySmoothRef = Vector3.zero;
+    private Vector3 desiredVelocity;      // ← NO movemos en Update
+    private Vector3 smoothVelocityRef;
 
-    private PlayerInputAction controls;
     private float minX, maxX, minZ, maxZ;
 
     void Awake()
@@ -30,9 +29,10 @@ public class PlayerMovementMobile : MonoBehaviour
 
         controls = new PlayerInputAction();
 
-        // Calcular los l�mites de la c�mara
+        // LÍMITES DE CÁMARA
         Camera cam = Camera.main;
         float distance = Mathf.Abs(transform.position.y - cam.transform.position.y);
+
         Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, distance));
         Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, distance));
 
@@ -66,38 +66,45 @@ public class PlayerMovementMobile : MonoBehaviour
     void OnTouchCanceled(InputAction.CallbackContext ctx)
     {
         isTouching = false;
+        desiredVelocity = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
-        velocitySmoothRef = Vector3.zero;
     }
 
     void Update()
     {
-        if (!isTouching) return;
+        if (!isTouching)
+        {
+            desiredVelocity = Vector3.zero;
+            return;
+        }
 
         Vector2 pointerPos = controls.Player.TouchPosition.ReadValue<Vector2>();
         Vector2 delta = pointerPos - touchStartPos;
 
-        // Ignorar movimiento peque�o
         if (delta.magnitude < deadZone)
         {
-            rb.linearVelocity = Vector3.zero;
+            desiredVelocity = Vector3.zero;
             return;
         }
 
-        // Direccion y fuerza
         Vector2 dir = delta.normalized;
         float strength = Mathf.Clamp01(delta.magnitude / joystickRadius);
 
-        // Mapeo XY (pantalla) -> XZ (mundo)
-        Vector3 targetVel = new Vector3(dir.x, 0f, dir.y) * maxSpeed * strength;
+        // DIRECCIÓN EN XZ
+        Vector3 target = new Vector3(dir.x, 0f, dir.y) * maxSpeed * strength;
 
-        // Suavizado opcional
         if (useSmoothing)
-            rb.linearVelocity = Vector3.SmoothDamp(rb.linearVelocity, targetVel, ref velocitySmoothRef, smoothTime);
+            desiredVelocity = Vector3.SmoothDamp(desiredVelocity, target, ref smoothVelocityRef, smoothTime);
         else
-            rb.linearVelocity = targetVel;
+            desiredVelocity = target;
+    }
 
-        // Limitar dentro de la c�mara
+    void FixedUpdate()
+    {
+        // Mover el Rigidbody dentro de la física
+        rb.linearVelocity = desiredVelocity;
+
+        // Clamp dentro de la cámara
         Vector3 pos = rb.position;
         pos.x = Mathf.Clamp(pos.x, minX + padding, maxX - padding);
         pos.z = Mathf.Clamp(pos.z, minZ + padding, maxZ - padding);

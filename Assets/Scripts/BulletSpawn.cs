@@ -22,15 +22,14 @@ public class BulletSpawn : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            StopCoroutine(bulletCoroutine);
-        }
+    
     }
 
     IEnumerator spawnBullets()
     {
-        while(true)
+        PlayerPowerUpController controller = FindObjectOfType<PlayerPowerUpController>();
+
+        while (true)
         {
             foreach (Transform spawns in bulletsSpawn)
             {
@@ -40,7 +39,14 @@ public class BulletSpawn : MonoBehaviour
                 if (bulletScript != null)
                     bulletScript.SetDirection(spawns.forward);
             }
-            yield return new WaitForSeconds(spawnTimeBullet);
+            float wait = spawnTimeBullet;
+            if (controller != null)
+            {
+                // Si fireRateMultiplier = 2 => dispara el doble de rápido (espera la mitad)
+                wait = spawnTimeBullet / controller.spawnMultiplicador;
+            }
+
+            yield return new WaitForSeconds(wait);
         }
     }
 }

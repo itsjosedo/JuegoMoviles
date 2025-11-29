@@ -7,19 +7,32 @@ public class PlayerPowerUpController : MonoBehaviour
     // Aquí guardamos los power ups activos 
     private Dictionary<PowerUp, Coroutine> activePowerUps = new Dictionary<PowerUp, Coroutine>();
 
-    //  Ejemplo de stats del jugador (ajusta a tu propio PlayerController)
+    //stats del jugador 
+
+
     [Header("Player Stats")]
-    public float moveSpeed = 5f;
-    public float fireRate = 0.25f;
-    public int maxHealth = 5;
-    public int currentHealth;
+    [HideInInspector] public float moveSpeed = 5f;
+    [HideInInspector] public int maxHealth = 5;
+    [HideInInspector] public int currentHealth;
     
 
     //variables escudo
-    public bool escudoActivo = false;
-    public int hitsEscudo = 0;
-    public float tiempoEscudo = 0;
+    [HideInInspector]public bool escudoActivo = false;
+    [HideInInspector] public int hitsEscudo = 0;
+    [HideInInspector] public float tiempoEscudo = 0;
     public GameObject efectoEscudo;
+
+
+
+    //Stats del disparo
+    public float bulletSpeed = 15f; //Solo sirve como refrencia
+    public float bulletSpeedMultiplicador = 1f;
+
+    public float spawnBase = 1f; //Solo sirve como refrencia
+    public float spawnMultiplicador = 1f;
+
+    public float bulletDamage = 1f; //Solo sirve como refrencia
+    public float bulletDamageMultiplicador = 1f;
 
     private void Start()
     {
@@ -88,18 +101,8 @@ public class PlayerPowerUpController : MonoBehaviour
     {
         moveSpeed -= amount;
     }
-
-    public void IncreaseFireRate(float amount)
-    {
-        fireRate -= amount;
-        fireRate = Mathf.Max(0.05f, fireRate); // evita valores negativos
-    }
-
-    public void ResetFireRate(float amount)
-    {
-        fireRate += amount;
-    }
-
+    
+    //Metodo para activar escudo
     public void ActivarEscudo(float tiempo)
     {
         escudoActivo = true;
@@ -121,10 +124,46 @@ public class PlayerPowerUpController : MonoBehaviour
             efectoEscudo.SetActive(false);
         }
     }
-    // Aquí puedes añadir más según tus necesidades:
-    // - doble daño
-    // - escudo
-    // - tamaño del player
-    // - triple disparo
-    // - magneto para recoger items
+
+    //metodos para activar y desactivar el spawn de las balas.
+    public void AddSpawnMultiplicador(float amount)
+    {
+        spawnMultiplicador += amount;
+    }
+    public void RemoveSpawnMultiplicador(float amount)
+    {
+        spawnMultiplicador -= amount;
+        if(spawnMultiplicador < 0.1f)
+        {
+            spawnMultiplicador = 1;
+        }
+    }
+    
+    public void AddBulletSpeed(float amount)
+    {
+        bulletSpeedMultiplicador += amount; 
+    }
+    public void RemoveBulletSpeed(float amount)
+    {
+        bulletSpeedMultiplicador -= amount;
+        if (bulletSpeedMultiplicador < 0.05f)
+        {
+            bulletSpeedMultiplicador = 0.05f;
+        }
+
+        
+    }
+    public void AddBulletDamageMultiplicador(float amount)
+    {
+        bulletDamageMultiplicador += amount;
+    }
+
+    public void RemoveBulletDamageMultiplicador(float amount)
+    {
+        bulletDamageMultiplicador -= amount;
+        if (bulletDamageMultiplicador < 0.1f)
+        {
+            bulletDamageMultiplicador = 0.1f;
+        }
+    }
 }

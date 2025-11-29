@@ -21,6 +21,12 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.LoseLife();
     }
 
+    public void GanarVida(int vida)
+    {
+        vida = 1;
+        GameManager.Instance.AddLife(vida);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
@@ -28,6 +34,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Golpe recibido SIN escudo");
             TomarDaño(1);
             //Destroy(other.gameObject);
+        }
+        if (other.CompareTag("Life"))
+        {
+            Debug.Log("Colision detectada: Toma una vida");
+            GanarVida(1);
+            Destroy(other.gameObject);
         }
     }
 }

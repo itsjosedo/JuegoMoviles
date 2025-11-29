@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PowerUpViSpeed : PowerUp
+public class PowerUpSpeed : PowerUp
 {
     public float spedAmount = 2f;
     public override void Apply(PlayerPowerUpController player)

@@ -7,7 +7,6 @@ public class PowerUpEscudo : PowerUp
     {
         player.ActivarEscudo(tiempoEscudo);
         Debug.Log("Escudo activo");
-        Debug.Log(tiempoEscudo);
     }
 
     public override void Remove(PlayerPowerUpController player)

@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class TimeToWin : MonoBehaviour
 {
-    [SerializeField] private float timeToWin;
+    [SerializeField] public float timeToWin;
+    [HideInInspector] public float time;
     [SerializeField] private GameObject canvasWin;
-    
 
+
+    private void Start()
+    {
+        time = timeToWin;
+    }
     // Update is called once per frame
     void Update()
     {
-        timeToWin -= Time.deltaTime;
+        time -= Time.deltaTime;
 
-        if(timeToWin < 0)
+        if(time < 0)
         {
             canvasWin.SetActive(true);
             Time.timeScale = 0f;

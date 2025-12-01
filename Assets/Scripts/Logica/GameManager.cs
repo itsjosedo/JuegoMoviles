@@ -4,12 +4,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; 
+    public static GameManager Instance;
+    private float timetoWin;
+    private float timeless;
 
-    
+    [Header("Boss")]
+    [SerializeField] private GameObject Boss;
+
+    [Header("vida")]
     public int playerLives = 3;
     public int playerScore = 0;
-    
+
+    [Header("caracteristicas")]
     public Text scoreText;
     public Text livesText;
     public GameObject gameOverPanel;
@@ -33,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        timetoWin = FindAnyObjectByType<TimeToWin>().time;
         UpdateUI();
         if (gameOverPanel != null)
         {
@@ -40,8 +47,15 @@ public class GameManager : MonoBehaviour
         }
             
     }
+    private void Update()
+    {
+        timeless = FindAnyObjectByType<TimeToWin>().time;
+        if (timeless < timetoWin / 2)
+        {
+            Boss.SetActive(true);
+        }
+    }
 
-    
     public void AddScore(int points)
     {
         playerScore += points;

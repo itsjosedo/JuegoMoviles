@@ -11,13 +11,15 @@ public class Bullet : MonoBehaviour
 
     public void SetDirection(Vector3 dir)
     {
+        
         direction = dir.normalized;
+        
         Destroy(gameObject, lifeTime);
     }
     private void Start()
     {
-        
-        playerController = FindObjectOfType<PlayerPowerUpController>();
+        playerController = Object.FindAnyObjectByType<PlayerPowerUpController>();
+        //playerController = FindObjectOfType<PlayerPowerUpController>();
     }
 
     void Update()
@@ -27,6 +29,7 @@ public class Bullet : MonoBehaviour
             finalSpeed = speed * playerController.bulletSpeedMultiplicador;
 
         transform.Translate(direction * finalSpeed * Time.deltaTime, Space.World);
+        Debug.Log(transform.position);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -38,12 +41,8 @@ public class Bullet : MonoBehaviour
         // Ejemplo: si impacta a un enemigo (tag "Enemy"), aplicar daño ahí
         if (other.CompareTag("Enemy"))
         {
-            //var enemy = other.GetComponent<EnemyHealth>(); // adapta a tu componente de enemigo
-            //if (enemy != null)
-            {
-                //enemy.TakeDamage(finalDamage);
-            }
-            Destroy(gameObject);
+            
+            Destroy(other);
         }
 
         // Si la bala choca con el player (si enemigos usan estas balas), aplica igual

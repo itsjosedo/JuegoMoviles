@@ -12,6 +12,7 @@ public class BulletSpawn : MonoBehaviour
     public float spawnTimeBullet;
     private IEnumerator bulletCoroutine;
     
+    
     void Start()
     {
         bulletCoroutine = spawnBullets();
@@ -37,7 +38,13 @@ public class BulletSpawn : MonoBehaviour
                 Bullet bulletScript = newBullet.GetComponent<Bullet>();
 
                 if (bulletScript != null)
+                {
                     bulletScript.SetDirection(spawns.forward);
+                }
+                else
+                {
+                    bulletScript.SetDirection(new Vector3(0,0,-1));
+                }
             }
             float wait = spawnTimeBullet;
             if (controller != null)

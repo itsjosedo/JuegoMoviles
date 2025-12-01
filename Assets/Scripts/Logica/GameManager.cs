@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     
     public int playerLives = 3;
     public int playerScore = 0;
-
+    
     public Text scoreText;
     public Text livesText;
     public GameObject gameOverPanel;

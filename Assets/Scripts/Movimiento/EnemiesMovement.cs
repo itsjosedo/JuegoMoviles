@@ -12,6 +12,8 @@ public class EnemiesMovement : MonoBehaviour
 
     void Start()
     {
+        direction = Random.Range(0, 2) == 0 ? -1 : 1;
+
         float dist = Mathf.Abs(Camera.main.transform.position.y - transform.position.y);
 
         minX = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).x;

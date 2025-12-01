@@ -3,7 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed = 15f;
-    public float lifeTime = 3f;
+    public float lifeTime = 5f;
     public float damage = 1f;
     private PlayerPowerUpController playerController;
 
@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
             finalSpeed = speed * playerController.bulletSpeedMultiplicador;
 
         transform.Translate(direction * finalSpeed * Time.deltaTime, Space.World);
-        Debug.Log(transform.position);
+       // Debug.Log(transform.position);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -43,6 +43,7 @@ public class Bullet : MonoBehaviour
         {
             
             Destroy(other);
+            Destroy(gameObject);
         }
 
         // Si la bala choca con el player (si enemigos usan estas balas), aplica igual
@@ -51,7 +52,7 @@ public class Bullet : MonoBehaviour
             var player = other.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TomarDaño((int)finalDamage); // si tu TomarDaño recibe int
+                player.TomarDaño(1); // si tu TomarDaño recibe int
             }
             Destroy(gameObject);
         }

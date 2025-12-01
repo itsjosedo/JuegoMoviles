@@ -12,8 +12,11 @@ EditorBuildSettings:
     path: Assets/Recursos Game/Scenes/EscogerNave.unity
     guid: e055de788a8fe3d4182eef00f12882af
   - enabled: 1
-    path: Assets/Recursos Game/Scenes/Game.unity
+    path: Assets/Recursos Game/Scenes/Game level 1.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Recursos Game/Scenes/Game level 2.unity
+    guid: 9c04ec29c96cb5446a4e566941df3346
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: f69451dd9fcac4f43b16b0de1a09ac3d, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 2c431d4481613fc4b9f343919b5e7ca1, type: 2}

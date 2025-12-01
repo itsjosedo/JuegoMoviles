@@ -5,7 +5,7 @@ public class ChangeScenes : MonoBehaviour
 {
     public void GoToGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Game level 1");
     }
     public void GoToMenu()
     {
@@ -15,6 +15,11 @@ public class ChangeScenes : MonoBehaviour
     public void GoToEscogerNave()
     {
         SceneManager.LoadScene("EscogerNave");
+    }
+    public void GoToGameLevel2()
+    {
+        SceneManager.LoadScene("Game level 2");
+
     }
     public void TimeScaleGo()
     {

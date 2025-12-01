@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text livesText;
     public GameObject gameOverPanel;
+    public GameObject GameWinPanel;
     private bool isGameOver = false;
 
     void Awake()
@@ -87,9 +88,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
 
     }
+
+    public void GameWin()
+    {
+        GameWinPanel.SetActive(true);
+        Time.timeScale = 0f;
+
+    }
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Game level 1");
     }
 }

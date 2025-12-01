@@ -104,7 +104,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba5ba460f5b58541bca6e84338846a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  lifeTime: 3
+  speed: 3
+  lifeTime: 5
   damage: 1
 --- !u!54 &6872770730300030880
 Rigidbody:

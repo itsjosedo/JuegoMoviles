@@ -41,15 +41,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c964c72544372a04f97478195e9aebf2, type: 3}
       propertyPath: m_LocalScale.x
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c964c72544372a04f97478195e9aebf2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c964c72544372a04f97478195e9aebf2, type: 3}
       propertyPath: m_LocalScale.z
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c964c72544372a04f97478195e9aebf2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c964c72544372a04f97478195e9aebf2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.18
+      value: -2.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c964c72544372a04f97478195e9aebf2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -154,8 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0a26b5beca1f640bd2dd315a009fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  fireRate: 0.25
+  moveSpeed: 6
   maxHealth: 5
   currentHealth: 0
   escudoActivo: 0
@@ -192,10 +191,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bd18c9cbae8a4ba7fae59079b2307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystickRadius: 150
-  deadZone: 10
+  joystickRadius: 100
+  deadZone: 6
   maxSpeed: 6
-  useSmoothing: 0
+  useSmoothing: 1
   smoothTime: 0.08
   padding: 0.5
 --- !u!114 &4479613036836303391
@@ -269,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletsSpawn:
   - {fileID: 8290530690929129240}
-  bullet: {fileID: 2684431041580567666, guid: 44babdf4560dcce42ae202e1d4353f77, type: 3}
+  bullet: {fileID: 2684431041580567666, guid: 6b0db221456c97f49816bdcfa9f38de0, type: 3}
   spawnTimeBullet: 0.5
 --- !u!65 &3454500971485873023
 BoxCollider:
@@ -290,5 +289,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0713635, y: 0.06727234, z: 0.017181128}
+  m_Size: {x: 0.07, y: 0.01718113, z: 0.2}
   m_Center: {x: 0, y: 0.000044827626, z: 0.0027847716}

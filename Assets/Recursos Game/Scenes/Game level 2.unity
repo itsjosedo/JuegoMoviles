@@ -5402,6 +5402,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4447207922200041914, guid: e9143bdb31289f540b5911c838fbf472, type: 3}
+      propertyPath: deadZone
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -4447207922200041914, guid: e9143bdb31289f540b5911c838fbf472, type: 3}
+      propertyPath: useSmoothing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4447207922200041914, guid: e9143bdb31289f540b5911c838fbf472, type: 3}
+      propertyPath: joystickRadius
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 311124025325236643, guid: e9143bdb31289f540b5911c838fbf472, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5458,6 +5470,10 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 0.06
       objectReference: {fileID: 0}
+    - target: {fileID: 6760198898972342674, guid: e9143bdb31289f540b5911c838fbf472, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5476,6 +5492,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6279464580176386068, guid: ab1f6296790b9764e909bb9c4c4f29ed, type: 3}
+      propertyPath: padding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6279464580176386068, guid: ab1f6296790b9764e909bb9c4c4f29ed, type: 3}
+      propertyPath: maxSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -6279464580176386068, guid: ab1f6296790b9764e909bb9c4c4f29ed, type: 3}
+      propertyPath: joystickRadius
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354410261685121610, guid: ab1f6296790b9764e909bb9c4c4f29ed, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3261866709016262974, guid: ab1f6296790b9764e909bb9c4c4f29ed, type: 3}
       propertyPath: bullet
       value: 

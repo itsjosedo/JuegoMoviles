@@ -19,7 +19,7 @@ public class PowerUpShotBoost : PowerUp
         {
             player.StartCoroutine(player.HandleTemporalPowerUp(this, duracion));
         }
-
+        GameManagerUI.Instance.ShowPowerUpMessage("SHOTBOOST ACTIVO");
         Debug.Log("ShotBoost aplicado: speed+" + addBulletSpeedMultiplicador + " fire+" + addSpawnmultiplicador + " dmg+" + addDamageMultiplicador);
     }
 

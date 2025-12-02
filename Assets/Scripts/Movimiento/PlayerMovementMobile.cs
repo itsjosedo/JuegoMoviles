@@ -4,20 +4,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementMobile : MonoBehaviour
 {
-    [Header("Joystick Settings")]
     public float joystickRadius = 150f;
     public float deadZone = 10f;
-    public float maxSpeed = 6f;
-    public bool useSmoothing = false;
-    public float smoothTime = 0.08f;
+    public float maxSpeed = 7f;
     public float padding = 0.5f;
 
-    private Rigidbody rb;
     private PlayerInputAction controls;
-    private Vector2 touchStartPos;
+    private Rigidbody rb;
+
     private bool isTouching = false;
-    private Vector3 desiredVelocity;      // ← NO movemos en Update
-    private Vector3 smoothVelocityRef;
+    private Vector2 startTouch;
+    private Vector2 prevTouch;
+
+    private Vector3 targetVelocity;
 
     private float minX, maxX, minZ, maxZ;
 
@@ -26,88 +25,77 @@ public class PlayerMovementMobile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         controls = new PlayerInputAction();
 
-        // LÍMITES DE CÁMARA
         Camera cam = Camera.main;
-        float distance = Mathf.Abs(transform.position.y - cam.transform.position.y);
+        float dist = Mathf.Abs(transform.position.y - cam.transform.position.y);
 
-        Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, distance));
-        Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, distance));
+        Vector3 bl = cam.ViewportToWorldPoint(new Vector3(0, 0, dist));
+        Vector3 tr = cam.ViewportToWorldPoint(new Vector3(1, 1, dist));
 
-        minX = bottomLeft.x;
-        maxX = topRight.x;
-        minZ = bottomLeft.z;
-        maxZ = topRight.z;
+        minX = bl.x; maxX = tr.x;
+        minZ = bl.z; maxZ = tr.z;
     }
 
     void OnEnable()
     {
-        controls.Player.TouchPress.started += OnTouchStarted;
-        controls.Player.TouchPress.canceled += OnTouchCanceled;
+        controls.Player.TouchPress.started += ctx => {
+            startTouch = controls.Player.TouchPosition.ReadValue<Vector2>();
+            prevTouch = startTouch;
+            isTouching = true;
+        };
+
+        controls.Player.TouchPress.canceled += ctx => {
+            isTouching = false;
+            targetVelocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
+        };
+
         controls.Player.Enable();
     }
 
     void OnDisable()
     {
-        controls.Player.TouchPress.started -= OnTouchStarted;
-        controls.Player.TouchPress.canceled -= OnTouchCanceled;
         controls.Player.Disable();
-        controls.Dispose();
-    }
-
-    void OnTouchStarted(InputAction.CallbackContext ctx)
-    {
-        touchStartPos = controls.Player.TouchPosition.ReadValue<Vector2>();
-        isTouching = true;
-    }
-
-    void OnTouchCanceled(InputAction.CallbackContext ctx)
-    {
-        isTouching = false;
-        desiredVelocity = Vector3.zero;
-        rb.linearVelocity = Vector3.zero;
     }
 
     void Update()
     {
         if (!isTouching)
         {
-            desiredVelocity = Vector3.zero;
+            targetVelocity = Vector3.zero;
             return;
         }
 
-        Vector2 pointerPos = controls.Player.TouchPosition.ReadValue<Vector2>();
-        Vector2 delta = pointerPos - touchStartPos;
+        Vector2 rawTouch = controls.Player.TouchPosition.ReadValue<Vector2>();
+        rawTouch = Vector2.Lerp(prevTouch, rawTouch, 0.35f); 
+        prevTouch = rawTouch;
+
+        Vector2 delta = rawTouch - startTouch;
 
         if (delta.magnitude < deadZone)
         {
-            desiredVelocity = Vector3.zero;
+            targetVelocity = Vector3.zero;
             return;
         }
 
         Vector2 dir = delta.normalized;
         float strength = Mathf.Clamp01(delta.magnitude / joystickRadius);
 
-        // DIRECCIÓN EN XZ
-        Vector3 target = new Vector3(dir.x, 0f, dir.y) * maxSpeed * strength;
-
-        if (useSmoothing)
-            desiredVelocity = Vector3.SmoothDamp(desiredVelocity, target, ref smoothVelocityRef, smoothTime);
-        else
-            desiredVelocity = target;
+        targetVelocity = new Vector3(dir.x, 0f, dir.y) * maxSpeed * strength;
     }
 
     void FixedUpdate()
     {
-        // Mover el Rigidbody dentro de la física
-        rb.linearVelocity = desiredVelocity;
+        rb.linearVelocity = targetVelocity;
 
-        // Clamp dentro de la cámara
         Vector3 pos = rb.position;
         pos.x = Mathf.Clamp(pos.x, minX + padding, maxX - padding);
         pos.z = Mathf.Clamp(pos.z, minZ + padding, maxZ - padding);
-        rb.position = pos;
+
+        rb.MovePosition(pos);
     }
 }
+

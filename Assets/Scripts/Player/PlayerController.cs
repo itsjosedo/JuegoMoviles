@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.CompareTag("Life"))
         {
+            GameManagerUI.Instance.ShowPowerUpMessage("GANASTE UNA VIDA");
             Debug.Log("Colision detectada: Toma una vida");
             GanarVida(1);
             Destroy(other.gameObject);

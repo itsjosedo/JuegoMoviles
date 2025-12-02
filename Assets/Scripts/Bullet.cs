@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
         float finalDamage = damage;
         if (playerController != null)
             finalDamage = damage * playerController.bulletDamageMultiplicador;
-
+        
         // Ejemplo: si impacta a un enemigo (tag "Enemy"), aplicar daño ahí
         if (other.CompareTag("Enemy"))
         {

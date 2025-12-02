@@ -39,7 +39,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        timetoWin = FindAnyObjectByType<TimeToWin>().time;
+        
+        timetoWin = FindAnyObjectByType<TimeToWin>().timeToWin;
+        timeless = timetoWin;
+        Debug.Log("duracion del juego: " + timetoWin);
         UpdateUI();
         if (gameOverPanel != null)
         {
@@ -49,7 +52,8 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        timeless = FindAnyObjectByType<TimeToWin>().time;
+
+        timeless -= Time.deltaTime;
         if (timeless < timetoWin / 2)
         {
             Boss.SetActive(true);
@@ -92,7 +96,7 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
         isGameOver = true;
 
-        Debug.Log("Game Over!");
+        //Debug.Log("Game Over!");
 
         
         if (gameOverPanel != null)
